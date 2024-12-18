@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Учет посещаемости</title>
+</head>
+<body>
+    <h1>Система учета посещаемости на блокчейне</h1>
+    <form id="attendance-form">
+        <input type="text" name="student_id" placeholder="ID студента" required>
+        <input type="text" name="class_id" placeholder="ID занятия" required>
+        <button type="submit">Отметить посещение</button>
+    </form>
+
+    <script>
+        document.getElementById('attendance-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const data = {
+                student_id: e.target.student_id.value,
+                class_id: e.target.class_id.value
+            };
+
+            fetch('/attendance', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            }).then(response => response.json())
+              .then(data => alert(data.message));
+        });
+    </script>
+</body>
+</html>
