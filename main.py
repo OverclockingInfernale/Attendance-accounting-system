@@ -1,16 +1,41 @@
-# This is a sample Python script.
+from flask import Flask, request, jsonify, render_template
+from blockchain import Blockchain
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+app = Flask(__name__)
+blockchain = Blockchain()
 
+# Главная страница
+@app.route('/')
+def home():
+    return render_template('index.html')
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+# Регистрация пользователя
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.get_json()
+    # Логика регистрации пользователя
+    return jsonify({"message": "User registered successfully"}), 201
 
+# Запись посещаемости
+@app.route('/attendance', methods=['POST'])
+def attendance():
+    data = request.get_json()
+    blockchain.add_block(data)
+    return jsonify({"message": "Attendance recorded"}), 201
 
-# Press the green button in the gutter to run the script.
+# Просмотр цепочки блоков
+@app.route('/chain', methods=['GET'])
+def chain():
+    chain_data = []
+    for block in blockchain.chain:
+        chain_data.append({
+            "index": block.index,
+            "timestamp": block.timestamp,
+            "data": block.data,
+            "previous_hash": block.previous_hash,
+            "hash": block.hash
+        })
+    return jsonify({"length": len(chain_data), "chain": chain_data})
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    app.run(debug=True)
