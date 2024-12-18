@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Администратор</h1>
+<p><a href="{{ url_for('add_student') }}">Добавить студента</a></p>
+<p><a href="{{ url_for('add_class') }}">Добавить занятие</a></p>
+
+<h2>Студенты</h2>
+<ul>
+{% for sid, sname in students.items() %}
+<li>{{ sid }} - {{ sname }}</li>
+{% endfor %}
+</ul>
+
+<h2>Занятия</h2>
+<ul>
+{% for cid, cinfo in classes.items() %}
+<li>{{ cid }} - {{ cinfo.course }} ({{ cinfo.datetime }})</li>
+{% endfor %}
+</ul>
+
+<h2>Блокчейн</h2>
+<pre>
+{% for block in blockchain %}
+Action: {{ block.action }}  
+Data: {{ block.data }}  
+Hash: {{ block.hash }}  
+Prev: {{ block.prev_hash }}
+----------------------
+{% endfor %}
+</pre>
+{% endblock %}

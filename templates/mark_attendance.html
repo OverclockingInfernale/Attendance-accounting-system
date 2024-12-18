@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Отметить посещаемость</h1>
+<form method="post">
+  <label>Занятие:
+    <select name="class_id">
+      {% for cid, cinfo in classes.items() %}
+      <option value="{{ cid }}">{{ cid }} - {{ cinfo.course }} ({{ cinfo.datetime }})</option>
+      {% endfor %}
+    </select>
+  </label><br>
+
+  <label>Студент:
+    <select name="student_id">
+      {% for sid, sname in students.items() %}
+      <option value="{{ sid }}">{{ sid }} - {{ sname }}</option>
+      {% endfor %}
+    </select>
+  </label><br>
+
+  <label>Статус:
+    <select name="status">
+      <option value="present">Присутствует</option>
+      <option value="absent">Отсутствует</option>
+    </select>
+  </label><br>
+
+  <input type="submit" value="Отметить">
+</form>
+{% endblock %}

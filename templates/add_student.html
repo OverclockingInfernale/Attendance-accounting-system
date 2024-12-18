@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Добавить студента</h1>
+<form method="post">
+  <label>ID студента: <input type="text" name="student_id"></label><br>
+  <label>Имя студента: <input type="text" name="student_name"></label><br>
+  <input type="submit" value="Добавить">
+</form>
+{% endblock %}

@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Attendance Blockchain</title>
+</head>
+<body>
+<nav>
+  {% if session.username %}
+    Вы вошли как {{ session.username }} | <a href="{{ url_for('logout') }}">Выйти</a>
+  {% else %}
+    <a href="{{ url_for('login') }}">Войти</a>
+  {% endif %}
+</nav>
+<hr>
+{% block content %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Моя посещаемость</h1>
+<table border="1" cellpadding="5">
+<tr><th>Занятие</th><th>Курс</th><th>Дата занятия</th><th>Статус</th><th>Когда отмечено</th></tr>
+{% for record in attendance %}
+<tr>
+  <td>{{ record.class_id }}</td>
+  <td>{{ classes[record.class_id].course }}</td>
+  <td>{{ classes[record.class_id].datetime }}</td>
+  <td>{{ record.status }}</td>
+  <td>{{ record.timestamp }}</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}
