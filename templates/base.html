@@ -3,16 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <title>Attendance Blockchain</title>
+<style>
+body { font-family: Arial, sans-serif; margin:0; padding:0; }
+.topbar {
+  background:#333;
+  color:#fff;
+  padding:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.topbar a {
+  color:#fff;
+  text-decoration:none;
+  margin-left:10px;
+  margin-right:10px;
+}
+.topbar .links {
+  display:flex;
+}
+.content { padding:20px; }
+</style>
 </head>
 <body>
-<nav>
-  {% if session.username %}
-    Вы вошли как {{ session.username }} | <a href="{{ url_for('logout') }}">Выйти</a>
-  {% else %}
-    <a href="{{ url_for('login') }}">Войти</a>
-  {% endif %}
-</nav>
-<hr>
+<div class="topbar">
+  <div class="logo">
+    <a href="{{ url_for('index') }}" style="color:white; font-weight:bold;">Attendance Blockchain</a>
+  </div>
+  <div class="links">
+    {% if session.username %}
+      {% set current_user = User.query.filter_by(username=session.username).first() %}
+      {% if current_user.role == 'admin' %}
+        <a href="{{ url_for('admin_dashboard') }}">Админ панель</a>
+      {% endif %}
+      {% if current_user.role == 'teacher' %}
+        <a href="{{ url_for('teacher_dashboard') }}">Панель преподавателя</a>
+      {% endif %}
+      {% if current_user.role == 'student' %}
+        <a href="{{ url_for('student_dashboard') }}">Панель студента</a>
+      {% endif %}
+      <a href="{{ url_for('mine') }}">Майнинг блока</a>
+      <a href="{{ url_for('logout') }}">Выйти</a>
+    {% else %}
+      <a href="{{ url_for('login') }}">Войти</a>
+    {% endif %}
+  </div>
+</div>
+<div class="content">
 {% block content %}{% endblock %}
+</div>
 </body>
 </html>

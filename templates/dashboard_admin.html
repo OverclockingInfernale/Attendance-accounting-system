@@ -6,25 +6,27 @@
 
 <h2>Студенты</h2>
 <ul>
-{% for sid, sname in students.items() %}
-<li>{{ sid }} - {{ sname }}</li>
+{% for s in students %}
+<li>{{ s.student_id }} - {{ s.name }}</li>
 {% endfor %}
 </ul>
 
 <h2>Занятия</h2>
 <ul>
-{% for cid, cinfo in classes.items() %}
-<li>{{ cid }} - {{ cinfo.course }} ({{ cinfo.datetime }})</li>
+{% for c in classes %}
+<li>{{ c.class_id }} - {{ c.course }} ({{ c.datetime }})</li>
 {% endfor %}
 </ul>
 
 <h2>Блокчейн</h2>
 <pre>
 {% for block in blockchain %}
-Action: {{ block.action }}  
-Data: {{ block.data }}  
-Hash: {{ block.hash }}  
-Prev: {{ block.prev_hash }}
+Action(s) in block:
+{% for tx in block.transactions %}
+  - {{ tx.action if tx.action else tx }}
+{% endfor %}
+Hash: {{ block.hash }}
+Prev: {{ block.previous_hash }}
 ----------------------
 {% endfor %}
 </pre>

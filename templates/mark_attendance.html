@@ -4,26 +4,26 @@
 <form method="post">
   <label>Занятие:
     <select name="class_id">
-      {% for cid, cinfo in classes.items() %}
-      <option value="{{ cid }}">{{ cid }} - {{ cinfo.course }} ({{ cinfo.datetime }})</option>
+      {% for c in classes %}
+      <option value="{{ c.class_id }}">{{ c.class_id }} - {{ c.course }} ({{ c.datetime }})</option>
       {% endfor %}
     </select>
-  </label><br>
+  </label><br><br>
 
   <label>Студент:
     <select name="student_id">
-      {% for sid, sname in students.items() %}
-      <option value="{{ sid }}">{{ sid }} - {{ sname }}</option>
+      {% for s in students %}
+      <option value="{{ s.student_id }}">{{ s.student_id }} - {{ s.name }}</option>
       {% endfor %}
     </select>
-  </label><br>
+  </label><br><br>
 
   <label>Статус:
     <select name="status">
       <option value="present">Присутствует</option>
       <option value="absent">Отсутствует</option>
     </select>
-  </label><br>
+  </label><br><br>
 
   <input type="submit" value="Отметить">
 </form>
