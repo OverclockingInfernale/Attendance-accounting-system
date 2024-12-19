@@ -17,11 +17,17 @@ with app.app_context():
         db.session.add(User(username="admin", password_hash="admin", role="admin"))
         db.session.add(User(username="teacher", password_hash="teacher", role="teacher"))
         db.session.add(User(username="student1", password_hash="student1", role="student"))
-        db.session.add(User(username="student2", password_hash="student2", role="student"))
+        db.session.add(Student(student_id="student1", name="Иванов Иван", user_username="student1"))
         db.session.commit()
 
     node = Node()
 
+@app.context_processor
+def inject_user():
+    user = None
+    if 'username' in session:
+        user = User.query.filter_by(username=session['username']).first()
+    return dict(current_user=user, User=User)
 @app.route('/')
 def index():
     if 'username' in session:
@@ -101,20 +107,24 @@ def student_dashboard():
 def add_student():
     if 'username' not in session:
         return redirect(url_for('login'))
-    u = User.query.filter_by(username=session['username']).first()
-    if u.role != 'admin':
+    current_user = User.query.filter_by(username=session['username']).first()
+    if current_user.role != 'admin':
         return redirect(url_for('login'))
 
     if request.method=="POST":
         student_id = request.form.get("student_id")
         student_name = request.form.get("student_name")
-        if student_id and student_name:
-            # добавляем в бд (чтоб сохранилось)
-            new_student = Student(student_id=student_id, name=student_name)
+        student_password = request.form.get("student_password")
+
+        if student_id and student_name and student_password:
+            new_user = User(username=student_id, password_hash=student_password, role='student')
+            db.session.add(new_user)
+            db.session.flush()
+
+            new_student = Student(student_id=student_id, name=student_name, user_username=student_id)
             db.session.add(new_student)
             db.session.commit()
 
-            # а потмо добовлеям это как транзакцию в нашу ноду, так надо
             tx = {
                 "action": "add_student",
                 "student_id": student_id,
@@ -157,8 +167,8 @@ def add_class():
 def mark_attendance():
     if 'username' not in session:
         return redirect(url_for('login'))
-    u = User.query.filter_by(username=session['username']).first()
-    if u.role != 'teacher':
+    current_user = User.query.filter_by(username=session['username']).first()
+    if current_user.role != 'teacher':
         return redirect(url_for('login'))
 
     classes = ClassModel.query.all()
@@ -193,14 +203,40 @@ def mark_attendance():
 def view_attendance():
     if 'username' not in session:
         return redirect(url_for('login'))
-    u = User.query.filter_by(username=session['username']).first()
-    if u.role != 'student':
+    current_user = User.query.filter_by(username=session['username']).first()
+    if current_user.role != 'student':
         return redirect(url_for('login'))
 
-    attendance = AttendanceRecord.query.filter_by(student_id=session['username']).order_by(AttendanceRecord.timestamp).all()
-    class_dict = {c.class_id: c for c in ClassModel.query.all()}
+    # Находим связанную запись студента
+    std = current_user.student
+    attendance = AttendanceRecord.query.filter_by(student_id=std.student_id).order_by(AttendanceRecord.timestamp).all()
+
+    class_list = ClassModel.query.all()
+    class_dict = {c.class_id: c for c in class_list}
 
     return render_template('view_attendance.html', attendance=attendance, classes=class_dict)
+
+@app.route('/admin/create_user', methods=["GET","POST"])
+def create_user():
+    # Доступно только администратору
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    current_user = User.query.filter_by(username=session['username']).first()
+    if current_user.role != 'admin':
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        new_username = request.form.get("username")
+        new_password = request.form.get("password")
+        new_role = request.form.get("role")  # admin или teacher
+
+        if new_username and new_password and new_role in ['admin','teacher']:
+            # Создаём пользователя
+            new_user = User(username=new_username, password_hash=new_password, role=new_role)
+            db.session.add(new_user)
+            db.session.commit()
+            return redirect(url_for('admin_dashboard'))
+    return render_template('create_user.html')
 
 @app.route('/mine')
 def mine():

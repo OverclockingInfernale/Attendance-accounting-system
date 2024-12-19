@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Создать пользователя</h1>
+<form method="post">
+  <label>Логин: <input type="text" name="username"></label><br><br>
+  <label>Пароль: <input type="password" name="password"></label><br><br>
+  <label>Роль: 
+    <select name="role">
+      <option value="teacher">Преподаватель</option>
+      <option value="admin">Администратор</option>
+    </select>
+  </label><br><br>
+  <input type="submit" value="Создать">
+</form>
+{% endblock %}

@@ -5,7 +5,11 @@ class User(db.Model):
     __tablename__ = 'users'
     username = db.Column(db.Text, primary_key=True)
     password_hash = db.Column(db.Text, nullable=False)
-    role = db.Column(db.Text, nullable=False)
+    role = db.Column(db.Text, nullable=False)  # admin, teacher, student
+
+    student = db.relationship('Student', backref='user', uselist=False)
+
+
 
 class Block(db.Model):
     __tablename__ = 'blocks'
@@ -25,11 +29,14 @@ class Transaction(db.Model):
     block_id = db.Column(db.Integer, db.ForeignKey('blocks.id', ondelete='CASCADE'))
     data = db.Column(JSONB, nullable=False)
 
+
 class Student(db.Model):
     __tablename__ = 'students'
     id = db.Column(db.Integer, primary_key=True)
     student_id = db.Column(db.Text, unique=True, nullable=False)
     name = db.Column(db.Text, nullable=False)
+    user_username = db.Column(db.Text, db.ForeignKey('users.username'), nullable=False)
+
 
 class ClassModel(db.Model):
     __tablename__ = 'classes'

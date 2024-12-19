@@ -2,6 +2,13 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+# и еще это
+# ALTER TABLE students
+# ADD COLUMN user_username TEXT NOT NULL REFERENCES users(username);
+
+
+
+
 # то что ниже, создайте БД и там создайте эти схемы ручками
 
 # create database config_temp_db
