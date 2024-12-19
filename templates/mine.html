@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="mine-container">
+    <h1 class="msg">{{ msg }}</h1>
+
+    {% if hash %}
+        <h2 class="hash">Hash: {{ hash }}</h2>
+    {% endif %}
+</div>
+
+{% endblock %}

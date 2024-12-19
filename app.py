@@ -206,10 +206,12 @@ def view_attendance():
 def mine():
     mined_block = node.mine_block()
     if mined_block:
-        msg = f"Block mined! Hash: {mined_block.hash}"
+        msg = "Block mined!"
+        hash = mined_block.hash
     else:
         msg = "No transactions to mine."
-    return msg
+        hash = None
+    return render_template('mine.html', msg=msg, hash=hash)
 
 @app.context_processor
 def inject_user():

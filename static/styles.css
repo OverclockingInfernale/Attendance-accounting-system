@@ -424,3 +424,17 @@ p > a:hover {
     background-color: #46836b;
 }
 
+.mine-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.mine-container > .msg {
+    text-align: center;
+    font-size: 24px;
+}
+
+.mine-container > .hash {
+    text-align: center;
+    font-size: 18px;
+}
