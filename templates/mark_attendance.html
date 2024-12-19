@@ -1,30 +1,37 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Отметить посещаемость</h1>
-<form method="post">
-  <label>Занятие:
-    <select name="class_id">
-      {% for c in classes %}
-      <option value="{{ c.class_id }}">{{ c.class_id }} - {{ c.course }} ({{ c.datetime }})</option>
-      {% endfor %}
-    </select>
-  </label><br><br>
+<div class="admin-container">
+  <div class="form-container">
+    <h1 class="form-title">Отметить посещаемость</h1>
+    <form method="post" class="form-wrapper">
+      <div class="form-group">
+        <label for="class_id">Занятие:</label>
+        <select id="class_id" name="class_id" class="form-select">
+          {% for c in classes %}
+          <option value="{{ c.class_id }}">{{ c.class_id }} - {{ c.course }} ({{ c.datetime }})</option>
+          {% endfor %}
+        </select>
+      </div>
 
-  <label>Студент:
-    <select name="student_id">
-      {% for s in students %}
-      <option value="{{ s.student_id }}">{{ s.student_id }} - {{ s.name }}</option>
-      {% endfor %}
-    </select>
-  </label><br><br>
+      <div class="form-group">
+        <label for="student_id">Студент:</label>
+        <select id="student_id" name="student_id" class="form-select">
+          {% for s in students %}
+          <option value="{{ s.student_id }}">{{ s.student_id }} - {{ s.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
 
-  <label>Статус:
-    <select name="status">
-      <option value="present">Присутствует</option>
-      <option value="absent">Отсутствует</option>
-    </select>
-  </label><br><br>
+      <div class="form-group">
+        <label for="status">Статус:</label>
+        <select id="status" name="status" class="form-select">
+          <option value="present">Присутствует</option>
+          <option value="absent">Отсутствует</option>
+        </select>
+      </div>
 
-  <input type="submit" value="Отметить">
-</form>
+      <button type="submit" class="form-button">Отметить</button>
+    </form>
+  </div>
+</div>
 {% endblock %}

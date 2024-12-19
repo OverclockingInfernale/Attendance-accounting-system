@@ -88,4 +88,4 @@ db = SQLAlchemy()
 #
 # alter table public.attendance_records
 #     owner to postgres;
-#
+

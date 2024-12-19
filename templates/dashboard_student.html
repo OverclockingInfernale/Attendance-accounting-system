@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Студент</h1>
-<p><a href="{{ url_for('view_attendance') }}">Просмотреть посещаемость</a></p>
+<div class="admin-container">
+  <div class="content-section">
+    <h1>Студент</h1>
+    <p><a href="{{ url_for('view_attendance') }}">Просмотреть посещаемость</a></p>
+  </div>
+</div>
 {% endblock %}

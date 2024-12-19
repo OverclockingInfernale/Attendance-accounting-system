@@ -1,33 +1,47 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Администратор</h1>
-<p><a href="{{ url_for('add_student') }}">Добавить студента</a></p>
-<p><a href="{{ url_for('add_class') }}">Добавить занятие</a></p>
+<div class="admin-container">
+    <div class="admin-header">
+        <h1>Администратор</h1>
+        <div class="admin-actions">
+            <p><a href="{{ url_for('add_student') }}">Добавить студента</a></p>
+            <p><a href="{{ url_for('add_class') }}">Добавить занятие</a></p>
+        </div>
+    </div>
 
-<h2>Студенты</h2>
-<ul>
-{% for s in students %}
-<li>{{ s.student_id }} - {{ s.name }}</li>
-{% endfor %}
-</ul>
+    <div class="content-columns">
+        <div class="students-section">
+            <h2>Студенты</h2>
+            <ul>
+                {% for s in students %}
+                <li>{{ s.student_id }} - {{ s.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
 
-<h2>Занятия</h2>
-<ul>
-{% for c in classes %}
-<li>{{ c.class_id }} - {{ c.course }} ({{ c.datetime }})</li>
-{% endfor %}
-</ul>
+        <div class="classes-section">
+            <h2>Занятия</h2>
+            <ul>
+                {% for c in classes %}
+                <li>{{ c.class_id }} - {{ c.course }} ({{ c.datetime }})</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 
-<h2>Блокчейн</h2>
-<pre>
-{% for block in blockchain %}
-Action(s) in block:
-{% for tx in block.transactions %}
-  - {{ tx.action if tx.action else tx }}
-{% endfor %}
-Hash: {{ block.hash }}
-Prev: {{ block.previous_hash }}
-----------------------
-{% endfor %}
-</pre>
+    <div class="blockchain-section">
+        <h2>Блокчейн</h2>
+        <pre>
+            {% for block in blockchain %}
+            Action(s) in block:
+            {% for tx in block.transactions %}
+              - {{ tx.action if tx.action else tx }}
+            {% endfor %}
+            Hash: {{ block.hash }}
+            Prev: {{ block.previous_hash }}
+            ----------------------
+            {% endfor %}
+        </pre>
+    </div>
+</div>
 {% endblock %}

@@ -1,16 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Посещаемость</h1>
-<table border="1" cellpadding="5">
-<tr><th>Занятие</th><th>Курс</th><th>Дата занятия</th><th>Статус</th><th>Когда отмечено</th></tr>
-{% for a in attendance %}
-<tr>
-  <td>{{ a.class_id }}</td>
-  <td>{{ classes[a.class_id].course }}</td>
-  <td>{{ classes[a.class_id].datetime }}</td>
-  <td>{{ a.status }}</td>
-  <td>{{ a.timestamp }}</td>
-</tr>
-{% endfor %}
-</table>
+<div class="admin-container">
+  <div class="content-section">
+    <h1>Посещаемость</h1>
+    <table class="attendance-table">
+      <tr><th>Занятие</th><th>Курс</th><th>Дата занятия</th><th>Статус</th><th>Когда отмечено</th></tr>
+      {% for a in attendance %}
+      <tr>
+        <td>{{ a.class_id }}</td>
+        <td>{{ classes[a.class_id].course }}</td>
+        <td>{{ classes[a.class_id].datetime }}</td>
+        <td>{{ a.status }}</td>
+        <td>{{ a.timestamp }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
 {% endblock %}
