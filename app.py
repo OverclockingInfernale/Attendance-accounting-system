@@ -17,7 +17,7 @@ with app.app_context():
         db.session.add(User(username="admin", password_hash="admin", role="admin"))
         db.session.add(User(username="teacher", password_hash="teacher", role="teacher"))
         db.session.add(User(username="student1", password_hash="student1", role="student"))
-        db.session.add(Student(student_id="student1", name="Иванов Иван", user_username="student1"))
+        db.session.add(Student(student_id="student1", name="Сева Бек", user_username="student1"))
         db.session.commit()
 
     node = Node()
@@ -259,4 +259,4 @@ def inject_user():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=8080)
